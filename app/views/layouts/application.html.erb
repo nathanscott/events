@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Events</title>
+<%= stylesheet_link_tag "application", :media => "all" %>
+<%= csrf_meta_tags %>
+</head>
+<body>
+<div id="header">
+  <% if user_signed_in? %>
+    <div id="notifications">
+      <div class="count"><%= current_user.notifications.length %> Notifications</div>
+      <ul>
+        <% current_user.notifications.each do |notification| %>
+          <%= render "notifications/#{notification[:type]}", object: notification[:object], subscribable: notification[:subscribable] %>
+        <% end %>
+      </ul>
+    </div>
+    <div class="sign_out">
+      <%= current_user.username %>
+      <%= link_to "Sign out", destroy_user_session_path, method: 'delete' %>
+    </div>
+  <% else %>
+    <div class="sign_in">
+      <%= link_to "Sign in", new_user_session_path %>co
+    </div>
+  <% end %>
+</div>
+
+<p class="notice"><%= notice %></p>
+<p class="alert"><%= alert %></p>
+
+<%= yield %>
+
+<%= javascript_include_tag "application" %>
+</body>
+</html>

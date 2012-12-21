@@ -1,0 +1,17 @@
+.count
+  %span#comment-count= object.comments.count
+  = "comment".pluralize(object.comments.count)
+%ul#comments
+  - object.comments.ordered.each do |comment|
+    %li{ id: "comment-#{comment.id}" }
+      %p
+        %time= "#{time_ago_in_words comment.created_at} ago"
+        %strong.fn
+          = link_to comment.user.try(:username), user_path(comment.user)
+      .comment_body= simple_format comment.body
+- if user_signed_in?
+  = form_for comment do |form|
+    = form.hidden_field :commentable_id, value: object.id
+    = form.hidden_field :commentable_type, value: object.class.name
+    = form.text_area :body, placeholder: 'Add a comment'
+    = form.submit

@@ -1,0 +1,12 @@
+
+development:
+  adapter: postgresql
+  database: events_development
+
+test:
+  adapter: postgresql
+  database: events_test
+
+production:
+  adapter: postgresql
+  database: events

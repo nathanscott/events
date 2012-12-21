@@ -1,0 +1,6 @@
+%li
+  %time= time_ago_in_words(object.created_at) + ' ago'
+  = link_to object.user do
+    .thumb= image_tag '#'
+    = object.user.username
+  commented on #{ link_to subscribable.title, subscribable }: "#{object.body}"
