@@ -4,6 +4,7 @@ class Post < ActiveRecord::Base
   
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :subscriptions, as: :subscribable, dependent: :destroy
+  has_many :subscribers, through: :subscriptions, source: :user
   belongs_to :user
   
   after_create do
