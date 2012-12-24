@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121221133718) do
+ActiveRecord::Schema.define(:version => 20121221234943) do
 
   create_table "comments", :force => true do |t|
     t.integer  "commentable_id"
@@ -21,6 +21,31 @@ ActiveRecord::Schema.define(:version => 20121221133718) do
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
   end
+
+  create_table "events", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "eventable_type"
+    t.integer  "eventable_id"
+    t.string   "verb"
+    t.text     "change_data"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  add_index "events", ["eventable_id", "eventable_type"], :name => "index_events_on_eventable_id_and_eventable_type"
+  add_index "events", ["user_id"], :name => "index_events_on_user_id"
+
+  create_table "notifications", :force => true do |t|
+    t.integer  "event_id"
+    t.integer  "user_id"
+    t.integer  "parent_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "notifications", ["event_id"], :name => "index_notifications_on_event_id"
+  add_index "notifications", ["parent_id"], :name => "index_notifications_on_parent_id"
+  add_index "notifications", ["user_id"], :name => "index_notifications_on_user_id"
 
   create_table "posts", :force => true do |t|
     t.string   "title"
@@ -39,19 +64,20 @@ ActiveRecord::Schema.define(:version => 20121221133718) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",                  :default => "", :null => false
-    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "email",                      :default => "", :null => false
+    t.string   "encrypted_password",         :default => "", :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          :default => 0
+    t.integer  "sign_in_count",              :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
     t.string   "username"
+    t.datetime "notifications_last_read_at"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

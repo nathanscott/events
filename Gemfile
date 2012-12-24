@@ -6,6 +6,7 @@ gem 'paper_trail'
 gem 'devise'
 gem 'decent_exposure'
 gem 'haml-rails'
+gem 'eventifier'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
